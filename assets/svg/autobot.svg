@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+  <!-- Fan-drawn geometric approximation of the G1 Autobot insignia (fallback only). -->
+  <g id="half" fill="#d7261e">
+    <polygon points="45.5,6 50,1 50,34 47,30"/>
+    <polygon points="34,12 43,8 45,30 48,36 31,33 29,20"/>
+    <polygon points="11,3 21,9 25,34 12,38 7,16"/>
+    <polygon points="9,42 26,37 47,40 46,46 28,49 10,52"/>
+    <polygon points="39,52 50,50 50,83 42,79"/>
+    <polygon points="8,56 27,53 36,53 36,62 33,82 26,94 15,84 8,68"/>
+    <polygon points="39,83 50,88 50,99 35,93"/>
+  </g>
+  <use href="#half" transform="translate(100,0) scale(-1,1)"/>
+</svg>
