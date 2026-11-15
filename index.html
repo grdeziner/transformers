@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/svg/autobot.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Shade&family=Bangers&family=Saira+Condensed:wght@500;700;800;900&family=Saira+Semi+Condensed:ital,wght@0,400;0,600;1,400&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Shade&family=Bangers&family=Press+Start+2P&family=Saira+Condensed:wght@500;700;800;900&family=Saira+Semi+Condensed:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -38,9 +38,30 @@
     <span>Autobot Archive</span>
   </a>
   <nav class="osd__nav" aria-label="Sections">
-    <a href="#optimus">Optimus Prime</a>
-    <a href="#bumblebee">Bumblebee</a>
-    <a href="#versus">Tech Specs</a>
+    <div class="navdrop" data-navdrop>
+      <button type="button" class="navdrop__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-autobots">
+        <span class="navdrop__label">Autobots</span><span class="navdrop__caret" aria-hidden="true"></span>
+      </button>
+      <div class="navdrop__panel" id="nav-autobots">
+        <ul class="navdrop__menu" aria-label="Autobots">
+          <li><a href="#optimus">Optimus Prime</a></li>
+          <li><a href="#bumblebee">Bumblebee</a></li>
+          <li><a href="#versus">Tech Specs</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="navdrop navdrop--con" data-navdrop>
+      <button type="button" class="navdrop__toggle" aria-expanded="false" aria-haspopup="true" aria-controls="nav-decepticons" aria-describedby="nav-decepticons-soon">
+        <span class="navdrop__label">Decepticons</span><span class="navdrop__caret" aria-hidden="true"></span>
+      </button>
+      <div class="navdrop__panel" id="nav-decepticons">
+        <ul class="navdrop__menu" aria-label="Decepticons">
+          <li><span class="navdrop__soon" id="nav-decepticons-soon">Coming soon</span></li>
+        </ul>
+      </div>
+    </div>
+    <a href="#toys">Toys</a>
+    <a href="tv-movies.html">TV &amp; Movies</a>
   </nav>
   <span class="osd__vcr" aria-hidden="true"><span class="rec">&#9654;</span> PLAY&nbsp;SP <span id="vcr-clock">0:00:00</span></span>
 </header>
@@ -213,6 +234,18 @@
         </div>
       </div>
       <p class="fineprint">Source: original 1984 Hasbro Tech Spec cards (as transcribed by TFU.info &amp; Seibertron).</p>
+    </div>
+  </section>
+
+  <!-- ============ TOYS ============ -->
+  <section id="toys" class="toys" aria-labelledby="toys-title">
+    <div class="toys__inner">
+      <h2 id="toys-title" class="section-title"><span>Toys</span></h2>
+      <div class="toys__card">
+        <p class="toys__kicker">Generation 1 &middot; The shelf</p>
+        <p class="toys__msg">Toy picks are coming soon.</p>
+        <p class="toys__note">Optimus Prime, Bumblebee, and the rest of the 1984 line will be shelved here.</p>
+      </div>
     </div>
   </section>
 </main>
