@@ -3,6 +3,13 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  const osd = $(".osd");
+  if (osd) {
+    const syncOsd = () => document.documentElement.style.setProperty("--osd-h", `${osd.offsetHeight}px`);
+    syncOsd();
+    window.addEventListener("resize", syncOsd);
+  }
+
   /* Art slots: show the real image when present, a cel-style placeholder when not */
   $$("img[data-fallback]").forEach(img => {
     const host = img.closest(".art, .wordmark, .insig");
