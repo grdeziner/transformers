@@ -74,6 +74,106 @@
     io.observe(table);
   }
 
+  /* Header dropdowns: hover and keyboard on desktop, tap to open on touch */
+  const drops = $$("[data-navdrop]");
+  const hoverMQ = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const hoverCapable = () => hoverMQ.matches;
+  let suppressNextFocusOpen = false;
+  const setOpen = (drop, open) => {
+    drop.classList.toggle("is-open", open);
+    const btn = $(".navdrop__toggle", drop);
+    if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
+  };
+  const closeAll = (except) => drops.forEach(d => { if (d !== except) setOpen(d, false); });
+
+  drops.forEach(drop => {
+    const btn = $(".navdrop__toggle", drop);
+    let suppressFocusOpen = false;
+    let fromPointer = false;
+    let pointerOwnsOpen = false;
+
+    btn.addEventListener("pointerdown", () => {
+      fromPointer = true;
+      if (!hoverCapable()) suppressFocusOpen = true;
+    });
+    drop.addEventListener("pointerenter", () => {
+      if (!hoverCapable()) return;
+      pointerOwnsOpen = true;
+      closeAll(drop);
+      setOpen(drop, true);
+    });
+    drop.addEventListener("pointerleave", () => {
+      if (!hoverCapable() || !pointerOwnsOpen) return;
+      const active = document.activeElement;
+      if (drop.contains(active) && active !== btn) {
+        pointerOwnsOpen = false;
+        return;
+      }
+      pointerOwnsOpen = false;
+      setOpen(drop, false);
+      if (document.activeElement === btn) btn.blur();
+    });
+    drop.addEventListener("focusin", () => {
+      if (suppressFocusOpen || suppressNextFocusOpen) {
+        suppressFocusOpen = false;
+        suppressNextFocusOpen = false;
+        fromPointer = false;
+        return;
+      }
+      if (!fromPointer) pointerOwnsOpen = false;
+      fromPointer = false;
+      closeAll(drop);
+      setOpen(drop, true);
+    });
+    drop.addEventListener("focusout", e => {
+      if (drop.contains(e.relatedTarget)) return;
+      if (pointerOwnsOpen) return;
+      setOpen(drop, false);
+    });
+    btn.addEventListener("click", () => {
+      if (hoverCapable()) {
+        closeAll(drop);
+        setOpen(drop, true);
+        return;
+      }
+      const willOpen = btn.getAttribute("aria-expanded") !== "true";
+      closeAll(willOpen ? drop : null);
+      setOpen(drop, willOpen);
+      suppressFocusOpen = false;
+    });
+    drop.addEventListener("keydown", e => {
+      const links = $$("a[href]", drop);
+      if (!links.length || (e.key !== "ArrowDown" && e.key !== "ArrowUp" && e.key !== "Home" && e.key !== "End")) return;
+      e.preventDefault();
+      pointerOwnsOpen = false;
+      setOpen(drop, true);
+      const i = links.indexOf(document.activeElement);
+      if (e.key === "Home") links[0].focus();
+      else if (e.key === "End") links[links.length - 1].focus();
+      else if (e.key === "ArrowDown") links[(i + 1) % links.length].focus();
+      else links[(i <= 0 ? links.length : i) - 1].focus();
+    });
+    $$("a[href]", drop).forEach(a => a.addEventListener("click", () => {
+      pointerOwnsOpen = false;
+      setOpen(drop, false);
+    }));
+  });
+
+  document.addEventListener("pointerdown", e => {
+    if (!e.target.closest("[data-navdrop]")) closeAll();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key !== "Escape") return;
+    const open = drops.find(d => d.classList.contains("is-open"));
+    if (!open) return;
+    e.preventDefault();
+    const btn = $(".navdrop__toggle", open);
+    suppressNextFocusOpen = true;
+    setOpen(open, false);
+    if (btn && document.activeElement !== btn) btn.focus();
+    else suppressNextFocusOpen = false;
+  });
+
   /* TRANSFORM! */
   $$("[data-transform]").forEach(stage => {
     const btn = $(".btn--transform", stage);
